@@ -25,11 +25,15 @@ has '_entry' => (
     accessor => 'entry',
 );
 
-sub update_browser {
+sub show_categories {
     my $self = shift;
     # clear service and entry lists
     $self->win->{browse}->getobj('service')->values([]);
     $self->win->{browse}->getobj('entry')->values([]);
+
+    # update help text
+    $self->win->{status}->getobj('status')->text(
+        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Delete: d");
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
@@ -37,12 +41,16 @@ sub update_browser {
     $category->focus;
 }
 
-sub select_category {
+sub show_services {
     my $self = shift;
     # grab selected category
     $self->category($self->win->{browse}->getobj('category')->get);
     # clear entry list (for backtrack from entry)
     $self->win->{browse}->getobj('entry')->values([]);
+
+    # update help text
+    $self->win->{status}->getobj('status')->text(
+        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Delete: d");
 
     # populate service list and set focus
     my $service = $self->win->{browse}->getobj('service');
@@ -52,10 +60,14 @@ sub select_category {
     $service->focus;
 }
 
-sub select_service {
+sub show_entries {
     my $self = shift;
     # grab selected service
     $self->service($self->win->{browse}->getobj('service')->get);
+
+    # update help text
+    $self->win->{status}->getobj('status')->text(
+        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Edit: e  //  Delete: d");
 
     # populate entry list and set focus
     my $entry = $self->win->{browse}->getobj('entry');
@@ -66,7 +78,7 @@ sub select_service {
     $entry->focus;
 }
 
-sub select_entry {
+sub display_entry {
     my $self = shift;
     # grab selected entry
     $self->entry($self->win->{browse}->getobj('entry')->get);

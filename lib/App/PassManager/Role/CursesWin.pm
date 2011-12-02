@@ -71,13 +71,13 @@ sub new_base_win {
         -border => 0, 
         -y      => -1, 
         -height => 1,
+        -width => -1,
     );
     $self->win->{status}->add('status', 'Label', 
         -text => "Quit: Ctrl-q or hit Escape",
         -x => 2,
-        -bg => 'blue',
-        -fg => 'black',
-        -reverse => 1,
+        -width => -1,
+        -fg => 'blue',
     );
 
     $self->win->{browse} = $self->ui->add(
@@ -95,7 +95,7 @@ sub new_base_win {
         -border     => 1,
         -vscrollbar => 1,
         -wraparound => 1,
-        -onchange   => sub { $self->select_category },
+        -onchange   => sub { $self->show_services },
     );
 
     $self->win->{browse}->add('service','Listbox',
@@ -105,10 +105,10 @@ sub new_base_win {
         -border     => 1,
         -vscrollbar => 1,
         -wraparound => 1,
-        -onchange   => sub { $self->select_service },
+        -onchange   => sub { $self->show_entries },
     );
     $self->win->{browse}->getobj('service')
-        ->set_routine('loose-focus', sub { $self->update_browser });
+        ->set_routine('loose-focus', sub { $self->show_categories });
 
     $self->win->{browse}->add('entry','Listbox',
         -title      => 'Entry',
@@ -117,10 +117,10 @@ sub new_base_win {
         -border     => 1,
         -vscrollbar => 1,
         -wraparound => 1,
-        -onchange   => sub { $self->select_entry },
+        -onchange   => sub { $self->display_entry },
     );
     $self->win->{browse}->getobj('entry')
-        ->set_routine('loose-focus', sub { $self->select_category });
+        ->set_routine('loose-focus', sub { $self->show_services });
 }
 
 1;
