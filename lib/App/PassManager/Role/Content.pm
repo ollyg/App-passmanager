@@ -44,6 +44,21 @@ sub category_list {
     $category->focus;
 }
 
+sub service_show {
+    my $self = shift;
+    # grab selected category
+    my $cat = $self->win->{browse}->getobj('category')->get_active_value;
+    # seem to be called spruriously so need this check
+    return if not $cat or $cat eq '- no values -';
+
+    # populate service list and redraw
+    my $service = $self->win->{browse}->getobj('service');
+    $service->values([sort keys %{
+        $self->data->{category}->{$cat}->{service} || $dummy
+    }]);
+    $service->draw;
+}
+
 sub service_list {
     my $self = shift;
 
@@ -68,6 +83,22 @@ sub service_list {
         $self->data->{category}->{$self->category}->{service} || $dummy
     }]);
     $service->focus;
+}
+
+sub entry_show {
+    my $self = shift;
+    # grab selected category
+    my $svc = $self->win->{browse}->getobj('service')->get_active_value;
+    # seem to be called spruriously so need this check
+    return if not $svc or $svc eq '- no values -';
+
+    # populate entry list and redraw
+    my $entry = $self->win->{browse}->getobj('entry');
+    $entry->values([sort keys %{
+        $self->data->{category}->{$self->category}->{service}->{$svc}->{entry}
+            || $dummy
+    }]);
+    $entry->draw;
 }
 
 sub entry_list {

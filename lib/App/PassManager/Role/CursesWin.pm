@@ -91,12 +91,13 @@ sub new_base_win {
     my $lbw = int($pw / 3);
 
     my $cl = $self->win->{browse}->add('category','Listbox',
-        -title      => 'Category',
-        -width      => $lbw,
-        -border     => 1,
-        -vscrollbar => 1,
-        -wraparound => 1,
-        -onchange   => sub { $self->service_list },
+        -title       => 'Category',
+        -width       => $lbw,
+        -border      => 1,
+        -vscrollbar  => 1,
+        -wraparound  => 1,
+        -onchange    => sub { $self->service_list },
+        -onselchange => sub { $self->service_show },
     );
     $cl->set_binding( sub { $self->delete(
         'Category', $self->data, $cl->get_active_value)
@@ -107,13 +108,14 @@ sub new_base_win {
     $cl->set_binding( sub { $self->add('Category', $self->data) }, 'a' );
 
     my $sl = $self->win->{browse}->add('service','Listbox',
-        -title      => 'Service',
-        -width      => $lbw,
-        -x          => $lbw,
-        -border     => 1,
-        -vscrollbar => 1,
-        -wraparound => 1,
-        -onchange   => sub { $self->entry_list },
+        -title       => 'Service',
+        -width       => $lbw,
+        -x           => $lbw,
+        -border      => 1,
+        -vscrollbar  => 1,
+        -wraparound  => 1,
+        -onchange    => sub { $self->entry_list },
+        -onselchange => sub { $self->entry_show },
     );
     $sl->set_routine('loose-focus', sub { $self->category_list });
     $sl->set_binding( sub { $self->delete(

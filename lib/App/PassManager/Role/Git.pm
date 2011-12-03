@@ -43,6 +43,10 @@ sub abort {
         $self->git->reset({ hard => 1 });
     }
 
+    #$self->ui->leave_curses;
+    #use Data::Dumper;
+    #print Dumper $self->data;
+
     exit(0);
 }
 
