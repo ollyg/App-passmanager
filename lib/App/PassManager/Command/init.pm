@@ -38,8 +38,8 @@ sub execute {
 
     $self->new_base_win;
 
-    $self->new_thing_win('user');
-    $self->new_thing_win('master');
+    $self->new_thing_win('user','master');
+    $self->new_thing_win('master','browse');
 
     $self->win->{user}->focus;
     $self->ui->mainloop;

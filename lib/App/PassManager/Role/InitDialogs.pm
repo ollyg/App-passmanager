@@ -10,7 +10,7 @@ use Curses qw(KEY_ENTER);
 use XML::Simple;
 
 sub get_user_win {
-    my $self = shift;
+    my ($self, $target) = @_;
 
     $self->win->{get_user} = $self->ui->add(
         'get_user', 'Window', 
@@ -23,12 +23,12 @@ sub get_user_win {
     );
     my $q = $self->win->{get_user}->getobj("get_user_question");
     $q->getobj('answer')->set_password_char('*');
-    $q->getobj('answer')->set_binding(sub { $self->do_browse }, KEY_ENTER());
-    $q->getobj('buttons')->set_routine('press-button', sub { $self->do_browse });
+    $q->getobj('answer')->set_binding($target, KEY_ENTER());
+    $q->getobj('buttons')->set_routine('press-button', $target);
 }
 
 sub new_thing_win {
-    my ($self, $thing) = @_;
+    my ($self, $thing, $next) = @_;
 
     $self->win->{$thing} = $self->ui->add(
         $thing, 'Window', 
@@ -41,12 +41,12 @@ sub new_thing_win {
     );
     my $q = $self->win->{$thing}->getobj("${thing}question");
     $q->getobj('answer')->set_password_char('*');
-    $q->getobj('answer')->set_binding(sub { $self->new_thing($thing) }, KEY_ENTER());
-    $q->getobj('buttons')->set_routine('press-button', sub { $self->new_thing($thing) });
+    $q->getobj('answer')->set_binding(sub { $self->new_thing($thing,$next) }, KEY_ENTER());
+    $q->getobj('buttons')->set_routine('press-button', sub { $self->new_thing($thing,$next) });
 }
 
 sub new_thing {
-    my ($self, $thing) = @_;
+    my ($self, $thing, $next) = @_;
     my $q = $self->win->{$thing}->getobj("${thing}question");
     my $response = $q->getobj('buttons')->get;
     my $value = $q->getobj('answer')->get;
@@ -62,16 +62,11 @@ sub new_thing {
         return;
     }
 
-    my $next = {
-        user => 'master',
-        master => 'browse',
-    };
-
     if ($self->$thing) {
         if ($self->$thing eq $value) {
             $self->ui->delete($thing); # XXX hack :-/
-            $self->win->{ $next->{$thing} }->focus;
-            my $next_init = "init_". $next->{$thing};
+            $self->win->{ $next }->focus;
+            my $next_init = "init_". $next;
             $self->$next_init;
             return;
         }
