@@ -31,9 +31,6 @@ sub init_git {
             or die qq{$0: failed to create git directory: "$!"\n};
         $self->git->init;
     }
-
-    die qq{$0: git repo is dirty, but I don't yet know how to fix that!\n}
-        if $self->git->status->is_dirty;
 }
 
 sub c {

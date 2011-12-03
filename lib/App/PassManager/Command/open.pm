@@ -24,7 +24,8 @@ ENDDESC
 sub execute {
     my ($self, $opt, $args) = @_;
 
-    $self->init_git;
+    die qq{$0: git repo is dirty, but I don't yet know how to fix that!\n}
+        if $self->git->status->is_dirty;
 
     # no stderr once we fire up Curses::UI
     open STDERR, '>/dev/null';
