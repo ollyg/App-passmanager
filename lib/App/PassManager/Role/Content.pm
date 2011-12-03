@@ -25,8 +25,11 @@ has '_entry' => (
     accessor => 'entry',
 );
 
+my $dummy = { '- no values -' => 1 };
+
 sub category_list {
     my $self = shift;
+
     # clear service and entry lists
     $self->win->{browse}->getobj('service')->values([]);
     $self->win->{browse}->getobj('entry')->values([]);
@@ -37,14 +40,21 @@ sub category_list {
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
-    $category->values([sort keys %{$self->data->{category} || {}}]);
+    $category->values([sort keys %{$self->data->{category} || $dummy}]);
     $category->focus;
 }
 
 sub service_list {
     my $self = shift;
+
     # grab selected category
-    $self->category($self->win->{browse}->getobj('category')->get);
+    my $item = $self->win->{browse}->getobj('category')->get;
+    if ($item eq '- no values -') {
+        $self->win->{browse}->getobj('category')->focus;
+        return;
+    }
+    $self->category($item);
+
     # clear entry list (for backtrack from entry)
     $self->win->{browse}->getobj('entry')->values([]);
 
@@ -55,15 +65,21 @@ sub service_list {
     # populate service list and set focus
     my $service = $self->win->{browse}->getobj('service');
     $service->values([sort keys %{
-        $self->data->{category}->{$self->category}->{service} || {}
+        $self->data->{category}->{$self->category}->{service} || $dummy
     }]);
     $service->focus;
 }
 
 sub entry_list {
     my $self = shift;
+
     # grab selected service
-    $self->service($self->win->{browse}->getobj('service')->get);
+    my $item = $self->win->{browse}->getobj('service')->get;
+    if ($item eq '- no values -') {
+        $self->win->{browse}->getobj('service')->focus;
+        return;
+    }
+    $self->service($item);
 
     # update help text
     $self->win->{status}->getobj('status')->text(
@@ -73,15 +89,21 @@ sub entry_list {
     my $entry = $self->win->{browse}->getobj('entry');
     $entry->values([sort keys %{
         $self->data->{category}->{$self->category}
-            ->{service}->{$self->service}->{entry} || {}
+            ->{service}->{$self->service}->{entry} || $dummy
     }]);
     $entry->focus;
 }
 
 sub display_entry {
     my $self = shift;
+
     # grab selected entry
-    $self->entry($self->win->{browse}->getobj('entry')->get);
+    my $item = $self->win->{browse}->getobj('entry')->get;
+    if ($item eq '- no values -') {
+        $self->win->{browse}->getobj('entry')->focus;
+        return;
+    }
+    $self->entry($item);
 
     # throw up a dialog box with the fields
     my $loc = $self->data->{category}->{$self->category}
