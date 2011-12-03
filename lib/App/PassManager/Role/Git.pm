@@ -36,6 +36,16 @@ sub init_git {
         if $self->git->status->is_dirty;
 }
 
+sub abort {
+    my $self = shift;
+
+    if ($self->git->status->is_dirty) {
+        $self->git->reset({ hard => 1 });
+    }
+
+    exit(0);
+}
+
 sub cleanup {
     my $self = shift;
 

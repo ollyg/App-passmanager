@@ -36,7 +36,7 @@ sub category_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Delete: d");
+        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Delete: D");
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
@@ -60,7 +60,7 @@ sub service_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Delete: d");
+        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Delete: D");
 
     # populate service list and set focus
     my $service = $self->win->{browse}->getobj('service');
@@ -83,7 +83,7 @@ sub entry_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-q or hit Escape  //  Add: a  //  Edit: e  //  Delete: d");
+        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Edit: E | Delete: D");
 
     # populate entry list and set focus
     my $entry = $self->win->{browse}->getobj('entry');
