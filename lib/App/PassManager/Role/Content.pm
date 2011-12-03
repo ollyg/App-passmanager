@@ -47,7 +47,7 @@ sub category_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Delete: D");
+        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Delete: D");
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
@@ -89,7 +89,7 @@ sub service_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Delete: D");
+        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Delete: D");
 
     my @values = sort keys %{
         $self->data->{category}->{$self->category}->{service} || {} };
@@ -143,7 +143,7 @@ sub entry_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-Q or Escape | Abandon Changes: Ctrl-R | Add: A | Edit: E | Delete: D");
+        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Edit: E | Delete: D");
 
     my @values = sort keys %{
         $self->data->{category}->{$self->category}

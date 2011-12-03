@@ -36,7 +36,7 @@ sub _build__ui {
     my $ui = Curses::UI->new( $self->ui_options );
     $ui->set_binding( sub { $self->abort   }, "\cR" );  # ctrl-r
     $ui->set_binding( sub { $self->cleanup }, "\cQ" );  # ctrl-q
-    $ui->set_binding( sub { $self->cleanup }, "\x1b" ); # escape
+    # $ui->set_binding( sub { $self->cleanup }, "\x1b" ); # escape
     return $ui;
 }
 
@@ -75,7 +75,7 @@ sub new_base_win {
         -width => -1,
     );
     $self->win->{status}->add('status', 'Label', 
-        -text => "Quit: Ctrl-Q or Escape",
+        -text => "Quit: Ctrl-Q",
         -x => 2,
         -width => -1,
         -fg => 'magenta',
