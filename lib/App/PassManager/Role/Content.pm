@@ -37,7 +37,7 @@ sub category_list {
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
-    $category->values([keys %{$self->data->{category} || {}}]);
+    $category->values([sort keys %{$self->data->{category} || {}}]);
     $category->focus;
 }
 
@@ -54,7 +54,7 @@ sub service_list {
 
     # populate service list and set focus
     my $service = $self->win->{browse}->getobj('service');
-    $service->values([keys %{
+    $service->values([sort keys %{
         $self->data->{category}->{$self->category}->{service} || {}
     }]);
     $service->focus;
@@ -71,7 +71,7 @@ sub entry_list {
 
     # populate entry list and set focus
     my $entry = $self->win->{browse}->getobj('entry');
-    $entry->values([keys %{
+    $entry->values([sort keys %{
         $self->data->{category}->{$self->category}
             ->{service}->{$self->service}->{entry} || {}
     }]);
@@ -111,6 +111,51 @@ sub delete {
         my $list = "${type}_list";
         $self->$list;
     }
+}
+
+sub edit {
+    my ($self, $name, $loc, $key) = @_;
+    my $type = lc $name;
+    return unless $key and exists $loc->{$type}->{$key};
+    my $newkey;
+
+    if ($type eq 'entry') {
+    }
+    else {
+        $newkey = $self->ui->question(
+            -title   => "Edit",
+            -question => "$name Name:",
+            -answer => $key,
+        );
+        return unless $newkey;
+    }
+
+    $loc->{$type}->{$newkey} = $loc->{$type}->{$key};
+    delete $loc->{$type}->{$key};
+    my $list = "${type}_list";
+    $self->$list;
+}
+
+sub add {
+    my ($self, $name, $loc) = @_;
+    my $type = lc $name;
+    $loc->{$type} ||= {};
+    my ($key, $val);
+
+    if ($type eq 'entry') {
+    }
+    else {
+        $key = $self->ui->question(
+            -title   => "New",
+            -question => "$name Name:",
+        );
+        return unless $key;
+        $val = {};
+    }
+
+    $loc->{$type}->{$key} = $val;
+    my $list = "${type}_list";
+    $self->$list;
 }
 
 1;

@@ -100,7 +100,10 @@ sub new_base_win {
     $cl->set_binding( sub { $self->delete(
         'Category', $self->data, $cl->get_active_value)
     }, 'd' );
-    $cl->set_binding( sub { $self->add_category($cl->get_active_value) }, 'a' );
+    $cl->set_binding( sub { $self->edit(
+        'Category', $self->data, $cl->get_active_value)
+    }, 'e' );
+    $cl->set_binding( sub { $self->add('Category', $self->data) }, 'a' );
 
     my $sl = $self->win->{browse}->add('service','Listbox',
         -title      => 'Service',
@@ -115,7 +118,12 @@ sub new_base_win {
     $sl->set_binding( sub { $self->delete(
         'Service', $self->data->{category}->{$cl->get}, $sl->get_active_value)
     }, 'd' );
-    $sl->set_binding( sub { $self->add_service($cl->get, $sl->get_active_value) }, 'a' );
+    $sl->set_binding( sub { $self->edit(
+        'Service', $self->data->{category}->{$cl->get}, $sl->get_active_value)
+    }, 'e' );
+    $sl->set_binding( sub { $self->add(
+        'Service', $self->data->{category}->{$cl->get})
+    }, 'a' );
 
     my $el = $self->win->{browse}->add('entry','Listbox',
         -title      => 'Entry',
@@ -127,11 +135,15 @@ sub new_base_win {
         -onchange   => sub { $self->display_entry },
     );
     $el->set_routine('loose-focus', sub { $self->service_list });
-    $el->set_binding( sub { $self->delete(
-        'Entry', $self->data->{category}->{$cl->get}->{service}->{$sl->get}, $el->get_active_value)
+    $el->set_binding( sub { $self->delete('Entry',
+        $self->data->{category}->{$cl->get}->{service}->{$sl->get}, $el->get_active_value)
     }, 'd' );
-    $el->set_binding( sub { $self->edit_entry($cl->get, $sl->get, $el->get_active_value) }, 'e' );
-    $el->set_binding( sub { $self->add_entry($cl->get, $sl->get, $el->get_active_value) }, 'a' );
+    $el->set_binding( sub { $self->edit('Entry',
+        $self->data->{category}->{$cl->get}->{service}->{$sl->get}, $el->get_active_value)
+    }, 'e' );
+    $el->set_binding( sub { $self->add(
+        'Entry', $self->data->{category}->{$cl->get}->{service}->{$sl->get})
+    }, 'a' );
 }
 
 1;
