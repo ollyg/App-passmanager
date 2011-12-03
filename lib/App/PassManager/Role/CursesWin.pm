@@ -116,6 +116,7 @@ sub new_base_win {
         -wraparound  => 1,
         -onchange    => sub { $self->entry_list },
         -onselchange => sub { $self->entry_show },
+        -onfocus     => sub { $self->entry_show },
     );
     $sl->set_routine('loose-focus', sub { $self->category_list });
     $sl->set_binding( sub { $self->delete(
