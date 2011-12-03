@@ -13,10 +13,22 @@ has '_category' => (
     accessor => 'category',
 );
 
+has '_category_id' => (
+    is => 'rw',
+    isa => 'Int',
+    accessor => 'category_id',
+);
+
 has '_service' => (
     is => 'rw',
     isa => 'Str',
     accessor => 'service',
+);
+
+has '_service_id' => (
+    is => 'rw',
+    isa => 'Int',
+    accessor => 'service_id',
 );
 
 has '_entry' => (
@@ -40,6 +52,7 @@ sub category_list {
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
     $category->values([sort keys %{$self->data->{category} || {}}]);
+    $category->{'-ypos'} = $self->category_id if $self->category_id; # XXX private?
     $category->focus;
 }
 
@@ -65,9 +78,11 @@ sub service_list {
     $self->c(scalar [caller(0)]->[3]);
 
     # grab selected category
-    my $item = $self->win->{browse}->getobj('category')->get
-        or return;
+    my $category = $self->win->{browse}->getobj('category');
+    my $item = $category->get or return;
     $self->category($item);
+    # save category position so we can set it on return
+    $self->category_id($category->id);
 
     # clear entry list (for backtrack from entry)
     $self->win->{browse}->getobj('entry')->values([]);
@@ -83,6 +98,7 @@ sub service_list {
         # populate service list and set focus
         my $service = $self->win->{browse}->getobj('service');
         $service->values([@values]);
+        $service->{'-ypos'} = $self->service_id if $self->service_id; # XXX private?
         $service->focus;
     }
     else {
@@ -94,6 +110,9 @@ sub service_list {
 sub entry_show {
     my $self = shift;
     $self->c(scalar [caller(0)]->[3]);
+
+    return if $self->win->{browse}->getfocusobj
+        eq $self->win->{browse}->getobj('category');
 
     # grab selected category
     my $svc = $self->win->{browse}->getobj('service')->get_active_value
@@ -116,9 +135,11 @@ sub entry_list {
     $self->c(scalar [caller(0)]->[3]);
 
     # grab selected service
-    my $item = $self->win->{browse}->getobj('service')->get
-        or return;
+    my $service = $self->win->{browse}->getobj('service');
+    my $item = $service->get or return;
     $self->service($item);
+    # save service position so we can set it on return
+    $self->service_id($service->id);
 
     # update help text
     $self->win->{status}->getobj('status')->text(
