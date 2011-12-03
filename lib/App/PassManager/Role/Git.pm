@@ -36,6 +36,22 @@ sub init_git {
         if $self->git->status->is_dirty;
 }
 
+sub c {
+    my $self = shift;
+    return unless $ENV{PASSMANAGER_TRACE};
+
+    $self->ui->leave_curses;
+    print @_, "\n";
+    $self->ui->reset_curses;
+}
+
+sub dump {
+    my $self = shift;
+
+    use Data::Dumper;
+    $self->c(Dumper $self->data);
+}
+
 sub abort {
     my $self = shift;
 
@@ -43,10 +59,7 @@ sub abort {
         $self->git->reset({ hard => 1 });
     }
 
-    #$self->ui->leave_curses;
-    #use Data::Dumper;
-    #print Dumper $self->data;
-
+    $self->dump;
     exit(0);
 }
 
@@ -63,10 +76,7 @@ sub cleanup {
         $self->git->commit({ all => 1, message => "Updated by ". $self->username });
     }
 
-    #$self->ui->leave_curses;
-    #use Data::Dumper;
-    #print Dumper $self->data;
-
+    $self->dump;
     exit(0);
 }
 
