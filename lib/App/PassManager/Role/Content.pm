@@ -25,7 +25,7 @@ has '_entry' => (
     accessor => 'entry',
 );
 
-sub show_categories {
+sub category_list {
     my $self = shift;
     # clear service and entry lists
     $self->win->{browse}->getobj('service')->values([]);
@@ -41,7 +41,7 @@ sub show_categories {
     $category->focus;
 }
 
-sub show_services {
+sub service_list {
     my $self = shift;
     # grab selected category
     $self->category($self->win->{browse}->getobj('category')->get);
@@ -60,7 +60,7 @@ sub show_services {
     $service->focus;
 }
 
-sub show_entries {
+sub entry_list {
     my $self = shift;
     # grab selected service
     $self->service($self->win->{browse}->getobj('service')->get);
@@ -92,6 +92,25 @@ sub display_entry {
         "Password:    ". ($loc->{password} || '') ."\n".
         "Description: ". ($loc->{description} || '')
     );
+}
+
+sub delete {
+    my ($self, $name, $loc, $key) = @_;
+    my $type = lc $name;
+    return unless $key and exists $loc->{$type}->{$key};
+
+    my $yes = $self->ui->dialog(
+        -message => qq{Really delete $name "$key"?},
+        -buttons => ['yes', 'no'],
+        -values  => [1, 0],
+        -title   => 'Confirm',
+    );
+
+    if ($yes) {
+        delete $loc->{$type}->{$key};
+        my $list = "${type}_list";
+        $self->$list;
+    }
 }
 
 1;

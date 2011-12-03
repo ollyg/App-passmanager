@@ -105,7 +105,7 @@ sub init_browse {
     $self->encrypt_file($self->user_file, $self->user, $self->master);
 
     $self->data(XML::Simple::XMLin('<opt></opt>', ForceArray => 1));
-    $self->show_categories;
+    $self->category_list;
 }
 
 sub do_browse {
@@ -139,7 +139,7 @@ sub do_browse {
     ));
 
     $self->ui->delete('get_user'); # XXX hack :-/
-    $self->show_categories;
+    $self->category_list;
     $self->win->{browse}->focus;
 }
 

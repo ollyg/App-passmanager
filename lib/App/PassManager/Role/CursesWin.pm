@@ -77,7 +77,7 @@ sub new_base_win {
         -text => "Quit: Ctrl-q or hit Escape",
         -x => 2,
         -width => -1,
-        -fg => 'blue',
+        -fg => 'magenta',
     );
 
     $self->win->{browse} = $self->ui->add(
@@ -89,28 +89,35 @@ sub new_base_win {
     my $pw = $self->win->{browse}->{'-bw'}; # XXX private?
     my $lbw = int($pw / 3);
 
-    $self->win->{browse}->add('category','Listbox',
+    my $cl = $self->win->{browse}->add('category','Listbox',
         -title      => 'Category',
         -width      => $lbw,
         -border     => 1,
         -vscrollbar => 1,
         -wraparound => 1,
-        -onchange   => sub { $self->show_services },
+        -onchange   => sub { $self->service_list },
     );
+    $cl->set_binding( sub { $self->delete(
+        'Category', $self->data, $cl->get_active_value)
+    }, 'd' );
+    $cl->set_binding( sub { $self->add_category($cl->get_active_value) }, 'a' );
 
-    $self->win->{browse}->add('service','Listbox',
+    my $sl = $self->win->{browse}->add('service','Listbox',
         -title      => 'Service',
         -width      => $lbw,
         -x          => $lbw,
         -border     => 1,
         -vscrollbar => 1,
         -wraparound => 1,
-        -onchange   => sub { $self->show_entries },
+        -onchange   => sub { $self->entry_list },
     );
-    $self->win->{browse}->getobj('service')
-        ->set_routine('loose-focus', sub { $self->show_categories });
+    $sl->set_routine('loose-focus', sub { $self->category_list });
+    $sl->set_binding( sub { $self->delete(
+        'Service', $self->data->{category}->{$cl->get}, $sl->get_active_value)
+    }, 'd' );
+    $sl->set_binding( sub { $self->add_service($cl->get, $sl->get_active_value) }, 'a' );
 
-    $self->win->{browse}->add('entry','Listbox',
+    my $el = $self->win->{browse}->add('entry','Listbox',
         -title      => 'Entry',
         -width      => $lbw,
         -x          => (2 * $lbw),
@@ -119,8 +126,12 @@ sub new_base_win {
         -wraparound => 1,
         -onchange   => sub { $self->display_entry },
     );
-    $self->win->{browse}->getobj('entry')
-        ->set_routine('loose-focus', sub { $self->show_services });
+    $el->set_routine('loose-focus', sub { $self->service_list });
+    $el->set_binding( sub { $self->delete(
+        'Entry', $self->data->{category}->{$cl->get}->{service}->{$sl->get}, $el->get_active_value)
+    }, 'd' );
+    $el->set_binding( sub { $self->edit_entry($cl->get, $sl->get, $el->get_active_value) }, 'e' );
+    $el->set_binding( sub { $self->add_entry($cl->get, $sl->get, $el->get_active_value) }, 'a' );
 }
 
 1;
