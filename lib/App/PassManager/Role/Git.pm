@@ -33,21 +33,26 @@ sub init_git {
     }
 }
 
-sub c {
-    my $self = shift;
-    return unless $ENV{PASSMANAGER_TRACE};
 
-    $self->ui->leave_curses;
-    print @_, "\n";
-    $self->ui->reset_curses;
-}
+# this logging routine is useful in combo with something like:
+#   $self->c(scalar [caller(0)]->[3]);
+#   $self->dump;
 
-sub dump {
-    my $self = shift;
+#sub c {
+#    my $self = shift;
+#    return unless $ENV{PASSMANAGER_TRACE};
+#
+#    $self->ui->leave_curses;
+#    print @_, "\n";
+#    $self->ui->reset_curses;
+#}
 
-    use Data::Dumper;
-    $self->c(Dumper $self->data);
-}
+#sub dump {
+#    my $self = shift;
+#
+#    use Data::Dumper;
+#    $self->c(Dumper $self->data);
+#}
 
 sub abort {
     my $self = shift;
@@ -56,7 +61,6 @@ sub abort {
         $self->git->reset({ hard => 1 });
     }
 
-    $self->dump;
     exit(0);
 }
 
@@ -66,7 +70,6 @@ sub cleanup {
     if ($self->data) {
         $self->encrypt_file($self->store_file, $self->master,
             split m/\n+/, XML::Simple::XMLout($self->data));
-        $self->dump;
     }
 
     if ($self->git->status->is_dirty) {

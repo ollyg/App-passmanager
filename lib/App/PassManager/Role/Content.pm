@@ -39,7 +39,6 @@ has '_entry' => (
 
 sub category_list {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     # clear service and entry lists
     $self->win->{browse}->getobj('service')->values([]);
@@ -58,7 +57,6 @@ sub category_list {
 
 sub service_show {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     # grab selected category
     my $cat = $self->win->{browse}->getobj('category')->get_active_value
@@ -75,7 +73,6 @@ sub service_show {
 
 sub service_list {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     # grab selected category
     my $category = $self->win->{browse}->getobj('category');
@@ -109,7 +106,6 @@ sub service_list {
 
 sub entry_show {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     return if $self->win->{browse}->getfocusobj
         eq $self->win->{browse}->getobj('category');
@@ -132,7 +128,6 @@ sub entry_show {
 
 sub entry_list {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     # grab selected service
     my $service = $self->win->{browse}->getobj('service');
@@ -164,7 +159,6 @@ sub entry_list {
 
 sub display_entry {
     my $self = shift;
-    $self->c(scalar [caller(0)]->[3]);
 
     # grab selected entry
     my $item = $self->win->{browse}->getobj('entry')->get
@@ -184,7 +178,6 @@ sub display_entry {
 
 sub delete {
     my ($self, $name, $loc, $key) = @_;
-    $self->c(scalar [caller(0)]->[3]);
 
     my $type = lc $name;
     return unless $key and exists $loc->{$type}->{$key};
@@ -216,7 +209,6 @@ sub ask {
 
 sub edit {
     my ($self, $name, $loc, $key) = @_;
-    $self->c(scalar [caller(0)]->[3]);
 
     my $type = lc $name;
     return unless $key and exists $loc->{$type}->{$key};
@@ -256,7 +248,6 @@ sub edit {
 
 sub add {
     my ($self, $name, $loc) = @_;
-    $self->c(scalar [caller(0)]->[3]);
 
     my $type = lc $name;
     $loc->{$type} ||= {};

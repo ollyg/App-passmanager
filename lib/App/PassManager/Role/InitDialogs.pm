@@ -9,6 +9,10 @@ with qw/
 use Curses qw(KEY_ENTER);
 use XML::Simple;
 
+#
+# This package is a bit of a twisty-turny mess, but works OK.
+#
+
 sub get_user_win {
     my ($self, $target) = @_;
 
