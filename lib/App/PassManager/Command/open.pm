@@ -16,7 +16,7 @@ sub abstract {
 
 sub description {
     return <<ENDDESC;
-This command will ask for your personal password then open the password
+This command will ask for your personal passphrase then open the password
 repository for browsing and editing.
 ENDDESC
 }

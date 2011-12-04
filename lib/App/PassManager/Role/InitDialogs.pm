@@ -19,7 +19,7 @@ sub get_user_win {
     );
     $self->win->{get_user}->add(
         "get_user_question", 'Dialog::Question',
-        -question => "Enter your password",
+        -question => "Enter your passphrase",
     );
     my $q = $self->win->{get_user}->getobj("get_user_question");
     $q->getobj('answer')->set_password_char('*');
@@ -37,7 +37,7 @@ sub new_thing_win {
     );
     $self->win->{$thing}->add(
         "${thing}question", 'Dialog::Question',
-        -question => "Enter the $thing password",
+        -question => "Enter the $thing passphrase",
     );
     my $q = $self->win->{$thing}->getobj("${thing}question");
     $q->getobj('answer')->set_password_char('*');
@@ -54,11 +54,11 @@ sub new_thing {
     $self->cleanup if not $response;
 
     if (not $value) {
-        $self->ui->error('Empty password, try again!');
+        $self->ui->error('Empty passphrase, try again!');
         my $clear = "clear_$thing";
         $self->$clear;
         $q->getobj('answer')->text('');
-        $q->getobj('question')->text("Enter the $thing password");
+        $q->getobj('question')->text("Enter the $thing passphrase");
         return;
     }
 
@@ -75,13 +75,13 @@ sub new_thing {
             my $clear = "clear_$thing";
             $self->$clear;
             $q->getobj('answer')->text('');
-            $q->getobj('question')->text("Enter the $thing password");
+            $q->getobj('question')->text("Enter the $thing passphrase");
         }
     }
     else {
         $self->$thing($value);
         $q->getobj('answer')->text('');
-        $q->getobj('question')->text("Enter $thing password again");
+        $q->getobj('question')->text("Enter $thing passphrase again");
     }
 
     $self->win->{$thing}->focus;
@@ -120,7 +120,7 @@ sub save_user_and_quit {
     $self->cleanup if not $response;
 
     if (not $value) {
-        $self->ui->error('Empty password, try again!');
+        $self->ui->error('Empty passphrase, try again!');
         $q->getobj('answer')->text('');
         return;
     }
@@ -130,7 +130,7 @@ sub save_user_and_quit {
         $self->decrypt_file($self->user_file, $self->user) };
 
     if (not $master) {
-        $self->ui->error('Incorrect password, try again!');
+        $self->ui->error('Incorrect passphrase, try again!');
         $q->getobj('answer')->text('');
         return;
     }
@@ -151,7 +151,7 @@ sub do_browse {
     $self->cleanup if not $response;
 
     if (not $value) {
-        $self->ui->error('Empty password, try again!');
+        $self->ui->error('Empty passphrase, try again!');
         $q->getobj('answer')->text('');
         return;
     }
@@ -161,7 +161,7 @@ sub do_browse {
         $self->decrypt_file($self->user_file, $self->user) };
 
     if (not $master) {
-        $self->ui->error('Incorrect password, try again!');
+        $self->ui->error('Incorrect passphrase, try again!');
         $q->getobj('answer')->text('');
         return;
     }

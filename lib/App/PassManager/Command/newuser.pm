@@ -13,13 +13,14 @@ with qw/
 /;
 
 sub abstract {
-    return "initialize git repository and password files";
+    return "provision a new user, or reset a user passphrase";
 }
 
 sub description {
     return <<ENDDESC;
-This command will initalize a new git repository, create a password store,
-and ask the user for its master password, and their own user's password.
+This command will ask first for the passphrase of the new user (twice) and
+then for your own passphrase. The new user is then installed with access
+to the password store.
 ENDDESC
 }
 
