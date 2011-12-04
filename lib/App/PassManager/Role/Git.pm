@@ -66,6 +66,7 @@ sub cleanup {
     if ($self->data) {
         $self->encrypt_file($self->store_file, $self->master,
             split m/\n+/, XML::Simple::XMLout($self->data));
+        $self->dump;
     }
 
     if ($self->git->status->is_dirty) {
@@ -73,7 +74,6 @@ sub cleanup {
         $self->git->commit({ all => 1, message => "Updated by ". $self->username });
     }
 
-    $self->dump;
     exit(0);
 }
 

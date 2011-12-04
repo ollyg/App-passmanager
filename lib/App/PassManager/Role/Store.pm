@@ -10,6 +10,13 @@ has '_master' => (
     clearer => 'clear_master',
 );
 
+has '_newuser' => (
+    is => 'rw',
+    isa => 'Str',
+    accessor => 'newuser',
+    clearer => 'clear_newuser',
+);
+
 has '_user' => (
     is => 'rw',
     isa => 'Str',

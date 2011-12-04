@@ -103,6 +103,45 @@ sub init_browse {
     $self->category_list;
 }
 
+sub init_get_user {
+    my $self = shift;
+    # stash the new user password before asking for the auth user password
+    $self->newuser($self->user);
+    $self->clear_user;
+}
+
+sub save_user_and_quit {
+    my $self = shift;
+
+    my $q = $self->win->{get_user}->getobj("get_user_question");
+    my $response = $q->getobj('buttons')->get;
+    my $value = $q->getobj('answer')->get;
+
+    $self->cleanup if not $response;
+
+    if (not $value) {
+        $self->ui->error('Empty password, try again!');
+        $q->getobj('answer')->text('');
+        return;
+    }
+
+    $self->user($value);
+    my $master = scalar eval {
+        $self->decrypt_file($self->user_file, $self->user) };
+
+    if (not $master) {
+        $self->ui->error('Incorrect password, try again!');
+        $q->getobj('answer')->text('');
+        return;
+    }
+    $self->master($master);
+
+    # encrypt master password with new user password
+    $self->encrypt_file($self->newuser_file, $self->newuser, $self->master);
+
+    $self->cleanup;
+}
+
 sub do_browse {
     my $self = shift;
     my $q = $self->win->{get_user}->getobj("get_user_question");

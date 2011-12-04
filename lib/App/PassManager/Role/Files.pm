@@ -36,4 +36,13 @@ has 'username' => (
 sub user_home { return $_[0]->store_home .'/users' }
 sub user_file { return $_[0]->user_home .'/'. $_[0]->username }
 
+has '_newusername' => (
+    is => 'rw',
+    isa => 'Str',
+    accessor => 'newusername',
+);
+
+sub newuser_home { return $_[0]->store_home .'/users' }
+sub newuser_file { return $_[0]->newuser_home .'/'. $_[0]->newusername }
+
 1;
