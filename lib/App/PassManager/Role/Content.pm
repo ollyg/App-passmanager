@@ -47,7 +47,7 @@ sub category_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Delete: D");
+        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Edit: E | Delete: D");
 
     # populate category list and set focus
     my $category = $self->win->{browse}->getobj('category');
@@ -89,7 +89,7 @@ sub service_list {
 
     # update help text
     $self->win->{status}->getobj('status')->text(
-        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Delete: D");
+        "Quit: Ctrl-Q | Abandon Changes: Ctrl-R | Add: A | Edit: E | Delete: D");
 
     my @values = sort keys %{
         $self->data->{category}->{$self->category}->{service} || {} };
@@ -263,13 +263,14 @@ sub add {
     my ($key, $val);
 
     if ($type eq 'entry') {
-        my ($title, $user, $pass, $comment) = (
-            $self->ask('Name'),
+        my $title = $self->ask('Name');
+        return unless $title;
+        my ($user, $pass, $comment) = (
             $self->ask('Username'),
             $self->ask('Password'),
             $self->ask('Comment'),
         );
-        return unless $title and ($user or $pass);
+        return unless ($user or $pass);
         $key = $title;
         $val = {
             username => $user,
