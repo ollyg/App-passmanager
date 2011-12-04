@@ -45,7 +45,10 @@ sub execute {
     # no stderr once we fire up Curses::UI
     open STDERR, '>/dev/null';
 
-    $self->new_base_win;
+    $self->ui->dialog("Enter the new user's passphrase "
+        ."twice, and then your own passphrase");
+
+    $self->new_root_win;
     $self->get_user_win( sub { $self->save_user_and_quit } );
     $self->new_thing_win('user', 'get_user');
 

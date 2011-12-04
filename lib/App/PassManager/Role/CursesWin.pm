@@ -64,7 +64,7 @@ sub _build__win_config {
     }
 }
 
-sub new_base_win {
+sub new_root_win {
     my $self = shift;
 
     $self->win->{status} = $self->ui->add(
@@ -80,6 +80,12 @@ sub new_base_win {
         -width => -1,
         -fg => 'magenta',
     );
+}
+
+sub new_base_win {
+    my $self = shift;
+
+    $self->new_root_win;
 
     $self->win->{browse} = $self->ui->add(
         'browse', 'Window', 
