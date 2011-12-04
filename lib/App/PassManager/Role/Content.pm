@@ -176,9 +176,9 @@ sub display_entry {
             ->{service}->{$self->service}->{entry}
             ->{$self->entry};
     $self->ui->dialog(
-        "Username:    ". ($loc->{username} || '') ."\n".
-        "Password:    ". ($loc->{password} || '') ."\n".
-        "Description: ". ($loc->{description} || '')
+        "Username: ". ($loc->{username} || '') ."\n".
+        "Password: ". ($loc->{password} || '') ."\n".
+        "Comment:  ". ($loc->{description} || '')
     );
 }
 
@@ -203,6 +203,17 @@ sub delete {
     }
 }
 
+sub ask {
+    my ($self, $what, $val) = @_;
+
+    my $ret = $self->ui->question(
+        -title   => "New Entry",
+        -question => "Entry $what:",
+        ($val ? (-answer => $val) : ()),
+    );
+    return $ret;
+}
+
 sub edit {
     my ($self, $name, $loc, $key) = @_;
     $self->c(scalar [caller(0)]->[3]);
@@ -212,6 +223,19 @@ sub edit {
     my $newkey;
 
     if ($type eq 'entry') {
+        my ($title, $user, $pass, $comment) = (
+            $self->ask('Name', $key),
+            $self->ask('Username', $loc->{$type}->{$key}->{username}),
+            $self->ask('Password', $loc->{$type}->{$key}->{password}),
+            $self->ask('Comment', $loc->{$type}->{$key}->{description}),
+        );
+        return unless $title and ($user or $pass);
+        $newkey = $title;
+        $loc->{$type}->{$newkey} = {
+            username => $user,
+            password => $pass,
+            description => $comment,
+        };
     }
     else {
         $newkey = $self->ui->question(
@@ -220,10 +244,12 @@ sub edit {
             -answer => $key,
         );
         return unless $newkey;
+        $loc->{$type}->{$newkey} = $loc->{$type}->{$key};
     }
 
-    $loc->{$type}->{$newkey} = $loc->{$type}->{$key};
-    delete $loc->{$type}->{$key};
+    delete $loc->{$type}->{$key}
+        if $key ne $newkey;
+
     my $list = "${type}_list";
     $self->$list;
 }
@@ -237,6 +263,19 @@ sub add {
     my ($key, $val);
 
     if ($type eq 'entry') {
+        my ($title, $user, $pass, $comment) = (
+            $self->ask('Name'),
+            $self->ask('Username'),
+            $self->ask('Password'),
+            $self->ask('Comment'),
+        );
+        return unless $title and ($user or $pass);
+        $key = $title;
+        $val = {
+            username => $user,
+            password => $pass,
+            description => $comment,
+        };
     }
     else {
         $key = $self->ui->question(
@@ -248,6 +287,7 @@ sub add {
     }
 
     $loc->{$type}->{$key} = $val;
+
     my $list = "${type}_list";
     $self->$list;
 }
