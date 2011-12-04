@@ -1,6 +1,6 @@
 package App::PassManager::Role::CursesWin;
 {
-  $App::PassManager::Role::CursesWin::VERSION = '1.113380';
+  $App::PassManager::Role::CursesWin::VERSION = '1.113382';
 }
 use Moose::Role;
 

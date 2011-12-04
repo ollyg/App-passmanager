@@ -11,7 +11,7 @@ license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
-name: App-PassManager
+name: App-passmanager
 requires:
   Curses: 0
   Curses::UI: 0
@@ -29,7 +29,7 @@ requires:
   strict: 0
   warnings: 0
 resources:
-  bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=App-PassManager
+  bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=App-passmanager
   homepage: https://github.com/ollyg/App-passmanager/wiki
   repository: git://github.com/ollyg/App-passmanager.git
-version: 1.113380
+version: 1.113382

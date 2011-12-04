@@ -15,12 +15,12 @@ my %WriteMakefileArgs = (
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
-  "DISTNAME" => "App-PassManager",
+  "DISTNAME" => "App-passmanager",
   "EXE_FILES" => [
     "bin/passmanager"
   ],
   "LICENSE" => "perl",
-  "NAME" => "App::PassManager",
+  "NAME" => "App::passmanager",
   "PREREQ_PM" => {
     "Curses" => 0,
     "Curses::UI" => 0,
@@ -38,7 +38,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "1.113380",
+  "VERSION" => "1.113382",
   "test" => {
     "TESTS" => ""
   }

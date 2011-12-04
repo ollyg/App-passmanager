@@ -1,6 +1,6 @@
 package App::PassManager::Role::Content;
 {
-  $App::PassManager::Role::Content::VERSION = '1.113380';
+  $App::PassManager::Role::Content::VERSION = '1.113382';
 }
 use Moose::Role;
 

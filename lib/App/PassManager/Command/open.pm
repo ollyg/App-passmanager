@@ -1,6 +1,6 @@
 package App::PassManager::Command::open;
 {
-  $App::PassManager::Command::open::VERSION = '1.113380';
+  $App::PassManager::Command::open::VERSION = '1.113382';
 }
 use Moose;
 

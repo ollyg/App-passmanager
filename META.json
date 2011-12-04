@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "App-PassManager",
+   "name" : "App-passmanager",
    "prereqs" : {
       "configure" : {
          "requires" : {
@@ -42,7 +42,7 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=App-PassManager"
+         "web" : "https://rt.cpan.org/Public/Dist/Display.html?Name=App-passmanager"
       },
       "homepage" : "https://github.com/ollyg/App-passmanager/wiki",
       "repository" : {
@@ -51,6 +51,6 @@
          "web" : "https://github.com/ollyg/App-passmanager"
       }
    },
-   "version" : "1.113380"
+   "version" : "1.113382"
 }
 
