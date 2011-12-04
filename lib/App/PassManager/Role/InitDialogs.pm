@@ -18,7 +18,7 @@ sub get_user_win {
 
     $self->win->{get_user} = $self->ui->add(
         'get_user', 'Window', 
-        -title => "User Password",
+        -title => "User Passphrase",
         $self->win_config,
     );
     $self->win->{get_user}->add(
@@ -36,7 +36,7 @@ sub new_thing_win {
 
     $self->win->{$thing} = $self->ui->add(
         $thing, 'Window', 
-        -title => (ucfirst $thing) ." Password",
+        -title => (ucfirst $thing) ." Passphrase",
         $self->win_config,
     );
     $self->win->{$thing}->add(
@@ -75,7 +75,7 @@ sub new_thing {
             return;
         }
         else {
-            $self->ui->error('Passwords do not match, try again!');
+            $self->ui->error('Passphrases do not match, try again!');
             my $clear = "clear_$thing";
             $self->$clear;
             $q->getobj('answer')->text('');
