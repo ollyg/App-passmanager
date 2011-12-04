@@ -24,6 +24,8 @@ to the password store.
 ENDDESC
 }
 
+sub usage_desc { "passmanager newuser [-?] [long options...] <new-user-name>" }
+
 sub execute {
     my ($self, $opt, $args) = @_;
 
