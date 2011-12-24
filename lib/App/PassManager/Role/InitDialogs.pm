@@ -1,6 +1,6 @@
 package App::PassManager::Role::InitDialogs;
 {
-  $App::PassManager::Role::InitDialogs::VERSION = '1.113382';
+  $App::PassManager::Role::InitDialogs::VERSION = '1.113580';
 }
 use Moose::Role;
 

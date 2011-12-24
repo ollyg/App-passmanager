@@ -1,6 +1,6 @@
 package App::PassManager::Role::GnuPG;
 {
-  $App::PassManager::Role::GnuPG::VERSION = '1.113382';
+  $App::PassManager::Role::GnuPG::VERSION = '1.113580';
 }
 
 use Moose::Role;

@@ -1,6 +1,6 @@
 package App::PassManager::CommandRole::Help;
 {
-  $App::PassManager::CommandRole::Help::VERSION = '1.113382';
+  $App::PassManager::CommandRole::Help::VERSION = '1.113580';
 }
 
 use Moose::Role;

@@ -1,6 +1,6 @@
 package App::PassManager::Role::CursesWin;
 {
-  $App::PassManager::Role::CursesWin::VERSION = '1.113382';
+  $App::PassManager::Role::CursesWin::VERSION = '1.113580';
 }
 use Moose::Role;
 
@@ -17,12 +17,10 @@ has _ui_options => (
     accessor => 'ui_options',
 );
 sub _build__ui_options {    
-    my $self = shift;
-    weaken $self;
     return {
         -clear_on_exit => 1,
         -color_support => 1,
-        -userdata => $self,
+        -mouse_support => 0,
     };
 }
 

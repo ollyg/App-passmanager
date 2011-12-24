@@ -2,7 +2,7 @@ NAME
     passmanager - Command-Line Shared Password Store
 
 VERSION
-    version 1.113382
+    version 1.113580
 
 SYNOPSIS
      $ passmanager --help

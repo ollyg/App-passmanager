@@ -32,4 +32,4 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=App-passmanager
   homepage: https://github.com/ollyg/App-passmanager/wiki
   repository: git://github.com/ollyg/App-passmanager.git
-version: 1.113382
+version: 1.113580

@@ -1,6 +1,6 @@
 package App::PassManager::Role::Git;
 {
-  $App::PassManager::Role::Git::VERSION = '1.113382';
+  $App::PassManager::Role::Git::VERSION = '1.113580';
 }
 use Moose::Role;
 
