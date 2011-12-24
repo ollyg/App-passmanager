@@ -14,12 +14,10 @@ has _ui_options => (
     accessor => 'ui_options',
 );
 sub _build__ui_options {    
-    my $self = shift;
-    weaken $self;
     return {
         -clear_on_exit => 1,
         -color_support => 1,
-        -userdata => $self,
+        -mouse_support => 0,
     };
 }
 
